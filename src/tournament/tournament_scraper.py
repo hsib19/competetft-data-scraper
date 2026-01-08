@@ -1,32 +1,27 @@
-from .models import Tournament
-from src.utils.storage import save_json
+import logging
+from .tournament_detail import fetch_tournament_detail, fetch_tournament_participants
 
-def scrape():
-    """Dummy scraping for tournaments."""
-    print("Scraping tournaments (dummy)...")
-    data = [
-        Tournament(
-            tournament_id="1",
-            name="Winter Cup",
-            date="2026-01-05",
-            href="/tournaments/winter-cup",
-            time="18:00",
-            status="scheduled",
-            region="EU",
-            datetime="2026-01-05T18:00:00",
-            upcoming=True
-        ).dict(),
-        Tournament(
-            tournament_id="2",
-            name="Spring Cup",
-            date="2026-02-15",
-            href="/tournaments/spring-cup",
-            time="19:00",
-            status="scheduled",
-            region="APAC",
-            datetime="2026-02-15T19:00:00",
-            upcoming=True
-        ).dict(),
-    ]
-    save_json(data, "tournaments.json")
-    return data
+def scrape(tournament_ids):
+    """
+    Scrape tournament details and participants for a list of tournament IDs.
+    Returns a list of dictionaries containing full tournament info.
+    """
+    results = []
+
+    for tid in tournament_ids:
+        logging.info(f"Scraping tournament {tid}")
+
+        # Fetch tournament detail
+        detail = fetch_tournament_detail(tid)
+        if detail is None:
+            logging.warning(f"Skipping tournament {tid}, failed to fetch details")
+            continue
+
+        # Fetch participants
+        participants = fetch_tournament_participants(tid)
+        if participants is not None:
+            detail["participants"] = participants.get("participants", [])
+
+        results.append(detail)
+
+    return results
