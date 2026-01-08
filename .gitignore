@@ -1,0 +1,45 @@
+# ----------------------
+# Python
+# ----------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.pyt
+
+# ----------------------
+# Virtual Environment
+# ----------------------
+venv/
+ENV/
+env/
+.env/
+
+# ----------------------
+# Data / Logs
+# ----------------------
+data/raw/
+data/processed/
+logs/
+
+# ----------------------
+# IDE / Editor
+# ----------------------
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# ----------------------
+# OS
+# ----------------------
+.DS_Store
+Thumbs.db
+
+# ----------------------
+# Python Packaging
+# ----------------------
+*.egg-info/
+dist/
+build/
