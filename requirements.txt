@@ -1,4 +1,4 @@
-# HTTP requests & scraping
+# HTTP requests & scraping libraries
 requests
 beautifulsoup4
 lxml
@@ -13,3 +13,14 @@ loguru
 # Optional: async scraping
 httpx
 aiohttp
+
+# Browser automation & advanced scraping
+playwright
+
+# Database integration
+sqlalchemy
+psycopg2-binary
+pydantic
+alembic
+
+python-dotenv
