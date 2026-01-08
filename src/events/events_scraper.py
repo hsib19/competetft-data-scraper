@@ -20,7 +20,7 @@ def fetch_events_by_id(container_id, category, retries=3, delay=5):
         container_id (str): The HTML id of the container
         category (str): Friendly name for logging
     Returns:
-        list of dicts: Each dict has href, name, type, category, tournament_id
+        list of dicts: Each dict has url, name, type, category, tournament_id
     """
     attempt = 0
     while attempt < retries:
@@ -41,14 +41,14 @@ def fetch_events_by_id(container_id, category, retries=3, delay=5):
                     return as.map(a => {{
                         const ps = a.querySelectorAll('div > p');
                         const name = ps[0] ? ps[0].textContent.trim() : 'unknown';
-                        const type = ps[1] ? ps[1].textContent.trim() : 'unknown';
-                        const href = a.getAttribute('href') || '';
+                        const type = ps[1] ? ps[1].textContent.trim().replace(/event/i, '').trim() : 'unknown';
+                        const url = a.getAttribute('href') || '';
                         
-                        // Extract tournament_id from href
-                        const parts = href.split('/');
+                        // Extract tournament_id from url
+                        const parts = url.split('/');
                         const tournament_id = parts.length > 0 ? parts[parts.length - 1] : 'unknown';
                         
-                        return {{ href, tournament_id, name, type }};
+                        return {{ url, tournament_id, name, type }};
                     }});
                 }}
             """)
