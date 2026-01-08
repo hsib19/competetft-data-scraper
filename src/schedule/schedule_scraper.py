@@ -46,7 +46,21 @@ def scrape(retries=3, delay=5):
                         // Select all sections that have data-date attribute
                         const sections = Array.from(document.querySelectorAll('section[data-date]'))
                         sections.forEach(section => {
-                            const date_label = section.getAttribute('data-date')
+
+                            const monthMap = { 
+                                "Jan": "01", "Feb": "02", "Mar": "03", "Apr": "04", "Mei": "05", "Jun": "06",
+                                "Jul": "07", "Agu": "08", "Sep": "09", "Okt": "10", "Nov": "11", "Des": "12" 
+                            }; 
+
+                            const date_label = section.getAttribute('data-date'); 
+                            const [day, monthStr, year] = date_label.split(" ");
+
+                            const month = monthMap[monthStr];
+                            // if year is undefined, fallback to "2026"
+                            const safeYear = year ? year : "2026";
+
+                            const formattedDate = `${safeYear}-${month}-${day.padStart(2, "0")}`;
+
                             let p1 = section.nextElementSibling
                             const tournaments = []
 
@@ -56,16 +70,27 @@ def scrape(retries=3, delay=5):
                                     const a = child.querySelector('a[href*="/tournament/"]')
                                     if (a) {
                                         // Extract tournament time
-                                        const timeEl = a.querySelector('time')
-                                        const timeText = timeEl ? timeEl.textContent.trim() : 'none'
+                                        const timeEl = a.querySelector('time');
+                                        let timeText = 'none';
+
+                                        if (timeEl) {
+                                            const datetime = timeEl.getAttribute('datetime'); // contoh: "2025-12-17T17:00:00Z"
+                                            const dateObj = new Date(datetime);
+
+                                            let hours = dateObj.getHours(); // 0–23
+                                            const minutes = dateObj.getMinutes().toString().padStart(2, '0');
+
+                                            const meridiem = hours >= 12 ? 'PM' : 'AM';
+
+                                            hours = hours % 12;
+                                            if (hours === 0) hours = 12;
+
+                                            timeText = `${hours}:${minutes} ${meridiem}`;
+                                        }
 
                                         // Extract tournament name
                                         const nameEl = a.querySelectorAll('div.ta_right')[0]
                                         const name = nameEl ? nameEl.textContent.trim() : 'none'
-
-                                        // Extract status text
-                                        const statusDiv = Array.from(a.querySelectorAll('div.ta_left')).find(d => d.textContent.trim() !== '')
-                                        const status = statusDiv ? statusDiv.textContent.trim() : 'none'
 
                                         // Determine region from SVG fill color
                                         let region = 'unknown'
@@ -78,24 +103,31 @@ def scrape(retries=3, delay=5):
                                         }
 
                                         // Extract href and tournament_id from URL
-                                        const href = a.getAttribute('href') || 'none'
-                                        const tournament_id = href.split('/').pop() || 'none'
+                                        const url = a.getAttribute('href') || 'none'
+                                        const tournament_id = url.split('/').pop() || 'none'
 
-                                        // Push tournament info to tournaments array
-                                        tournaments.push({
-                                            'tournament_id': tournament_id,
-                                            'href': href,
-                                            'time': timeText,
-                                            'name': name,
-                                            'status': status,
-                                            'region': region
-                                        })
+                                        // Only push if name does not contain "snapshot"
+                                        if (name && !name.toLowerCase().includes("snapshot")) {
+                                            tournaments.push({
+                                                tournament_id,
+                                                url,
+                                                time: timeText,
+                                                name,
+                                                region
+                                            });
+                                        }
+
                                     }
                                 })
                             }
 
-                            // Push each date section with its tournaments
-                            result.push({'date': date_label, 'tournaments': tournaments})
+                            if (tournaments.length > 0) {
+                                // Push each dte section with its tournaments
+                                result.push({
+                                    date: formattedDate,
+                                    tournaments
+                                })
+                            }
                         })
                         return result
                     }
