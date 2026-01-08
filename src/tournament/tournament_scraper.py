@@ -1,12 +1,32 @@
 from .models import Tournament
-from utils.storage import save_json
+from src.utils.storage import save_json
 
 def scrape():
     """Dummy scraping for tournaments."""
     print("Scraping tournaments (dummy)...")
     data = [
-        Tournament(id="1", name="Winter Cup", date="2026-01-05").dict(),
-        Tournament(id="2", name="Spring Cup", date="2026-02-15").dict(),
+        Tournament(
+            tournament_id="1",
+            name="Winter Cup",
+            date="2026-01-05",
+            href="/tournaments/winter-cup",
+            time="18:00",
+            status="scheduled",
+            region="EU",
+            datetime="2026-01-05T18:00:00",
+            upcoming=True
+        ).dict(),
+        Tournament(
+            tournament_id="2",
+            name="Spring Cup",
+            date="2026-02-15",
+            href="/tournaments/spring-cup",
+            time="19:00",
+            status="scheduled",
+            region="APAC",
+            datetime="2026-02-15T19:00:00",
+            upcoming=True
+        ).dict(),
     ]
     save_json(data, "tournaments.json")
     return data

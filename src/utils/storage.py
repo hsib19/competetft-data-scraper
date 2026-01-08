@@ -1,6 +1,6 @@
 import json
 import os
-from config.settings import DATA_DIR
+from src.config.settings import DATA_DIR
 
 os.makedirs(DATA_DIR, exist_ok=True)
 

@@ -1,11 +1,11 @@
 import asyncio
-from events.events_scraper import scrape as scrape_events
-from schedule.schedule_scraper import scrape as scrape_schedule
-from tournament.tournament_scraper import scrape as scrape_tournaments
-from tournament.participants_scraper import scrape as scrape_participants
-from pro_points.pro_points_scraper import scrape as scrape_pro_points
-from ladder_points.ladder_scraper import scrape as scrape_ladder_points
-from utils.logger import logger
+from src.events.events_scraper import scrape as scrape_events
+from src.schedule.schedule_scraper import scrape as scrape_schedule
+from src.tournament.tournament_scraper import scrape as scrape_tournaments
+from src.tournament.participants_scraper import scrape as scrape_participants
+from src.pro_points.pro_points_scraper import scrape as scrape_pro_points
+from src.ladder_points.ladder_scraper import scrape as scrape_ladder_points
+from src.utils.logger import logger
 
 async def main():
     logger.info("Starting CompetetFT Scraper...")

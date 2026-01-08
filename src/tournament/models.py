@@ -1,17 +1,19 @@
+from typing import Optional, List
 from pydantic import BaseModel
-from datetime import datetime
 
 class Tournament(BaseModel):
     tournament_id: str
-    href: str
-    time: str           
     name: str
-    region: str
-    datetime: datetime  
-    upcoming: bool
+    date: Optional[str] = None
+    href: Optional[str] = None
+    time: Optional[str] = None
+    status: Optional[str] = None
+    region: Optional[str] = None
+    datetime: Optional[str] = None
+    upcoming: Optional[bool] = None
 
 
-class Participant(BaseModel):
-    id: str
-    name: str
-    rank: int
+class Participants(BaseModel):
+    tournament_id: str
+    url: str
+    participants: List[str]

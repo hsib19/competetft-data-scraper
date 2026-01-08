@@ -1,5 +1,5 @@
 from .models import Event
-from utils.storage import save_json
+from src.utils.storage import save_json
 
 def scrape():
     """Dummy scraping for events."""

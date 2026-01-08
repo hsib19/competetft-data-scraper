@@ -1,0 +1,12 @@
+[
+  {
+    "player_id": "p1",
+    "points": 120,
+    "rank": 1
+  },
+  {
+    "player_id": "p2",
+    "points": 110,
+    "rank": 2
+  }
+]
