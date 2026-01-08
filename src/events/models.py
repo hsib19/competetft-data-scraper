@@ -1,7 +1,8 @@
 from pydantic import BaseModel
 
 class Event(BaseModel):
-    id: str
-    name: str
-    start_date: str
-    end_date: str
+    tournament_id: str                
+    name: str                    
+    category: str = None   
+    type: str = None      
+    url: str = None       
