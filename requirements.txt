@@ -1,0 +1,15 @@
+# HTTP requests & scraping
+requests
+beautifulsoup4
+lxml
+pandas
+
+# Optional: type checking & data models
+pydantic
+
+# Logging & pretty printing
+loguru
+
+# Optional: async scraping
+httpx
+aiohttp
