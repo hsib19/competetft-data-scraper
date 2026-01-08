@@ -1,9 +1,15 @@
 from pydantic import BaseModel
+from datetime import datetime
 
 class Tournament(BaseModel):
-    id: str
+    tournament_id: str
+    href: str
+    time: str           
     name: str
-    date: str
+    region: str
+    datetime: datetime  
+    upcoming: bool
+
 
 class Participant(BaseModel):
     id: str
