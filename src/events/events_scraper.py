@@ -7,7 +7,7 @@ from src.config.settings import BASE_URL
 from src.utils.logger import logger
 
 # Directory to save raw scraped data
-RAW_DATA_DIR = Path("data/raw/events")
+RAW_DATA_DIR = Path("data/raw")
 RAW_DATA_DIR.mkdir(parents=True, exist_ok=True)
 RAW_FILE = RAW_DATA_DIR / "events.json"
 
