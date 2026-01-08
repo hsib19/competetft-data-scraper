@@ -53,13 +53,21 @@ def scrape(retries=3, delay=5):
                             }; 
 
                             const date_label = section.getAttribute('data-date'); 
-                            const [day, monthStr, year] = date_label.split(" ");
+                            let formattedDate;
 
-                            const month = monthMap[monthStr];
-                            // if year is undefined, fallback to "2026"
-                            const safeYear = year ? year : "2026";
-
-                            const formattedDate = `${safeYear}-${month}-${day.padStart(2, "0")}`;
+                            if (date_label.toLowerCase().includes("besok")) {
+                                const tomorrow = new Date();
+                                tomorrow.setDate(tomorrow.getDate() + 1);
+                                const yyyy = tomorrow.getFullYear();
+                                const mm = String(tomorrow.getMonth() + 1).padStart(2, "0");
+                                const dd = String(tomorrow.getDate()).padStart(2, "0");
+                                formattedDate = `${yyyy}-${mm}-${dd}`;
+                            } else {
+                                const [day, monthStr, year] = date_label.split(" ");
+                                const month = monthMap[monthStr];
+                                const safeYear = year ? year : "2026";
+                                formattedDate = `${safeYear}-${month}-${day.padStart(2, "0")}`;
+                            }
 
                             let p1 = section.nextElementSibling
                             const tournaments = []
